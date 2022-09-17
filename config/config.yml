@@ -1,0 +1,52 @@
+rules:
+  - name: breaking_change
+    regex: (?im).*breaking change:.*
+    bump: major
+
+  - name: breaking_bang
+    regex: (?im).*(\w+)(\(.*\))?!:.*
+    bump: major
+
+  - name: build
+    regex: (?im).*build(\(.*\))?:.*
+    bump: none
+
+  - name: ci
+    regex: (?im).*ci(\(.*\))?:.*
+    bump: none
+
+  - name: dep
+    regex: (?im).*dep(\(.*\))?:.*
+    bump: patch
+
+  - name: docs
+    regex: (?im).*docs(\(.*\))?:.*
+    bump: none
+
+  - name: feat
+    regex: (?im).*feat(\(.*\))?:.*
+    bump: minor
+
+  - name: fix
+    regex: (?im).*fix(\(.*\))?:.*
+    bump: patch
+
+  - name: perf
+    regex: (?im).*perf(\(.*\))?:.*
+    bump: patch
+
+  - name: refactor
+    regex: (?im).*refactor(\(.*\))?:.*
+    bump: patch
+
+  - name: style
+    regex: (?im).*style(\(.*\))?:.*
+    bump: patch
+
+  - name: test
+    regex: (?im).*test(\(.*\))?:.*
+    bump: none
+
+  - name: chore
+    regex: (?im).*chore(\(.*\))?:.*
+    bump: none

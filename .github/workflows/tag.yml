@@ -1,0 +1,57 @@
+name: Tag
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  test_release:
+    name: Test Release
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - run: git fetch --force --tags
+
+      - uses: actions/setup-go@v3
+        with:
+          go-version: 1.19
+
+      - uses: docker/setup-qemu-action@v2
+
+      - uses: docker/setup-buildx-action@v2
+
+      - uses: goreleaser/goreleaser-action@v3
+        with:
+          distribution: goreleaser
+          version: latest
+          args: release --rm-dist --snapshot
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+
+  tag:
+    runs-on: ubuntu-latest
+    name: Tag
+    needs: test_release
+    steps:
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ~1.19
+
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.TOKEN }}
+
+      - run: git fetch --force --tags
+
+      - run: |
+          if [[ $(go run main.go current) != $(go run main.go next) ]]; then
+            git tag v$(go run main.go next)
+            git push --tags
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}

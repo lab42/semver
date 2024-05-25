@@ -16,7 +16,7 @@ jobs:
 
       - run: git fetch --force --tags
 
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version: 1.19
 
@@ -37,7 +37,7 @@ jobs:
     name: Tag
     needs: test_release
     steps:
-      - uses: actions/setup-go@v3
+      - uses: actions/setup-go@v5
         with:
           go-version: ~1.19
 
